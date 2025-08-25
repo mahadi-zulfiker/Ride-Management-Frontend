@@ -1,3 +1,4 @@
+// FeaturesPage.jsx
 import { Link } from 'react-router-dom';
 import { 
   Car, User, Shield, MapPin, Clock, Star, CreditCard, 
@@ -6,6 +7,7 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import { motion } from 'framer-motion';
 
 const FeaturesPage = () => {
   const riderFeatures = [
@@ -111,258 +113,279 @@ const FeaturesPage = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Platform Features
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-              Discover the powerful features designed for riders, drivers, and administrators
-            </p>
-          </div>
+      {/* Hero Section with Banner and Quote */}
+      <section className="relative bg-gradient-to-br from-teal-600 to-teal-800 text-white py-32">
+        <div className="absolute inset-0 bg-[url('https://source.unsplash.com/random/1920x1080/?technology,features')] bg-cover bg-center opacity-30"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10 relative">
+          <motion.h1 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl font-bold mb-6"
+          >
+            Platform Features
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-2xl md:text-3xl mb-8 max-w-3xl mx-auto italic font-light"
+          >
+            "Innovation distinguishes between a leader and a follower." – Steve Jobs
+          </motion.p>
         </div>
       </section>
 
       {/* Rider Features */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
             <div className="flex justify-center mb-6">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center">
-                <User className="w-8 h-8 text-primary-600" />
+              <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center">
+                <User className="w-8 h-8 text-teal-600" />
               </div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              For Riders
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Everything you need for a seamless ride booking experience
-            </p>
-          </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">For Riders</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Everything you need for a seamless ride booking experience</p>
+          </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {riderFeatures.map((feature, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-                <div className="text-primary-600 mb-4">
-                  {feature.icon}
-                </div>
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <div className="text-teal-600 mb-4">{feature.icon}</div>
                 <h3 className="text-lg font-semibold mb-3">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
             <Link
               to="/register?role=rider"
-              className="bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary-700 transition-colors duration-300"
+              className="bg-teal-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-teal-700 hover:scale-105 transition-all duration-300 shadow-lg"
             >
               Start Riding
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Driver Features */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
             <div className="flex justify-center mb-6">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center">
-                <Car className="w-8 h-8 text-primary-600" />
+              <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center">
+                <Car className="w-8 h-8 text-teal-600" />
               </div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              For Drivers
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Powerful tools to help you succeed as a professional driver
-            </p>
-          </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">For Drivers</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Powerful tools to help you succeed as a professional driver</p>
+          </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {driverFeatures.map((feature, index) => (
-              <div key={index} className="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow duration-300">
-                <div className="text-primary-600 mb-4">
-                  {feature.icon}
-                </div>
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-gray-50 rounded-xl p-6 hover:shadow-md hover:scale-105 transition-all duration-300"
+              >
+                <div className="text-teal-600 mb-4">{feature.icon}</div>
                 <h3 className="text-lg font-semibold mb-3">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
             <Link
               to="/register?role=driver"
-              className="bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary-700 transition-colors duration-300"
+              className="bg-teal-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-teal-700 hover:scale-105 transition-all duration-300 shadow-lg"
             >
               Become a Driver
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Admin Features */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
             <div className="flex justify-center mb-6">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center">
-                <BarChart3 className="w-8 h-8 text-primary-600" />
+              <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center">
+                <BarChart3 className="w-8 h-8 text-teal-600" />
               </div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              For Administrators
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Comprehensive management tools for platform oversight and optimization
-            </p>
-          </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">For Administrators</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Comprehensive management tools for platform oversight and optimization</p>
+          </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {adminFeatures.map((feature, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-                <div className="text-primary-600 mb-4">
-                  {feature.icon}
-                </div>
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <div className="text-teal-600 mb-4">{feature.icon}</div>
                 <h3 className="text-lg font-semibold mb-3">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Platform Highlights */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Platform Highlights
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Key features that make our platform stand out
-            </p>
-          </div>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Platform Highlights</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Key features that make our platform stand out</p>
+          </motion.div>
 
           <div className="grid md:grid-cols-2 gap-12">
             <div className="space-y-8">
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
+              {[
+                { icon: CheckCircle, color: 'green', title: 'Verified Users', desc: 'All drivers undergo thorough background checks and verification processes to ensure safety.' },
+                { icon: Lock, color: 'blue', title: 'Secure Payments', desc: 'All transactions are encrypted and secure, with multiple payment options available.' },
+                { icon: Phone, color: 'purple', title: '24/7 Support', desc: 'Round-the-clock customer support to assist you with any questions or issues.' }
+              ].map((item, index) => (
+                <motion.div 
+                  key={index}
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-start space-x-4 hover:scale-105 transition-all duration-300"
+                >
+                  <div className="flex-shrink-0">
+                    <div className={`w-8 h-8 bg-${item.color}-100 rounded-full flex items-center justify-center`}>
+                      <item.icon className={`w-5 h-5 text-${item.color}-600`} />
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Verified Users</h3>
-                  <p className="text-gray-600">
-                    All drivers undergo thorough background checks and verification processes to ensure safety.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                    <Lock className="w-5 h-5 text-blue-600" />
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                    <p className="text-gray-600">{item.desc}</p>
                   </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Secure Payments</h3>
-                  <p className="text-gray-600">
-                    All transactions are encrypted and secure, with multiple payment options available.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-purple-600" />
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">24/7 Support</h3>
-                  <p className="text-gray-600">
-                    Round-the-clock customer support to assist you with any questions or issues.
-                  </p>
-                </div>
-              </div>
+                </motion.div>
+              ))}
             </div>
 
             <div className="space-y-8">
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                    <Zap className="w-5 h-5 text-orange-600" />
+              {[
+                { icon: Zap, color: 'orange', title: 'Real-time Updates', desc: 'Live tracking and real-time updates keep you informed throughout your journey.' },
+                { icon: Shield, color: 'red', title: 'Safety Features', desc: 'Emergency contacts, ride sharing, and safety monitoring for peace of mind.' },
+                { icon: TrendingUp, color: 'teal', title: 'Performance Analytics', desc: 'Detailed analytics and insights to help optimize your experience and earnings.' }
+              ].map((item, index) => (
+                <motion.div 
+                  key={index}
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-start space-x-4 hover:scale-105 transition-all duration-300"
+                >
+                  <div className="flex-shrink-0">
+                    <div className={`w-8 h-8 bg-${item.color}-100 rounded-full flex items-center justify-center`}>
+                      <item.icon className={`w-5 h-5 text-${item.color}-600`} />
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Real-time Updates</h3>
-                  <p className="text-gray-600">
-                    Live tracking and real-time updates keep you informed throughout your journey.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                    <Shield className="w-5 h-5 text-red-600" />
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                    <p className="text-gray-600">{item.desc}</p>
                   </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Safety Features</h3>
-                  <p className="text-gray-600">
-                    Emergency contacts, ride sharing, and safety monitoring for peace of mind.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 text-teal-600" />
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Performance Analytics</h3>
-                  <p className="text-gray-600">
-                    Detailed analytics and insights to help optimize your experience and earnings.
-                  </p>
-                </div>
-              </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary-600 text-white">
+      <section className="py-24 bg-teal-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          <motion.h2 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-4xl font-bold mb-6"
+          >
             Ready to Get Started?
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-xl mb-8 max-w-2xl mx-auto"
+          >
             Join thousands of users who trust our platform for their transportation needs
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          </motion.p>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
             <Link
               to="/register?role=rider"
-              className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300"
+              className="bg-white text-teal-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg"
             >
               Sign Up as Rider
             </Link>
             <Link
               to="/register?role=driver"
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition-colors duration-300"
+              className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-teal-600 hover:scale-105 transition-all duration-300 shadow-lg"
             >
               Become a Driver
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
