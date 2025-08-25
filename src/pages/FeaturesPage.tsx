@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import { 
   Car, User, Shield, MapPin, Clock, Star, CreditCard, 
-  BarChart3, Users, Settings, Bell, Phone, Mail, 
+  BarChart3, Users, Settings, Bell, Phone, 
   CheckCircle, Zap, Globe, Lock, Eye, TrendingUp
 } from 'lucide-react';
 import Navbar from '../components/layout/Navbar';

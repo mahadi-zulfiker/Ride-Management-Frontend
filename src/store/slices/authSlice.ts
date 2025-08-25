@@ -1,21 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-interface User {
-  _id: string;
-  name: string;
-  email: string;
-  role: 'rider' | 'driver' | 'admin';
-  phone?: string;
-  emergencyContact?: string;
-  vehicleInfo?: {
-    type: string;
-    licensePlate: string;
-  };
-  isApproved?: boolean;
-  isOnline?: boolean;
-  isBlocked?: boolean;
-}
+import type { User } from '../../types'; // import from your shared interfaces file
 
 interface AuthState {
   user: User | null;
@@ -27,8 +12,8 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  token: localStorage.getItem('token'),
-  isAuthenticated: !!localStorage.getItem('token'),
+  token: typeof window !== 'undefined' ? localStorage.getItem('token') : null,
+  isAuthenticated: typeof window !== 'undefined' ? !!localStorage.getItem('token') : false,
   isLoading: false,
   error: null,
 };
@@ -42,14 +27,18 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.error = null;
-      localStorage.setItem('token', action.payload.token);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('token', action.payload.token);
+      }
     },
     logout: (state) => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
       state.error = null;
-      localStorage.removeItem('token');
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
+      }
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
