@@ -18,7 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, Mail, Shield, Calendar, Clock, Edit, CheckCircle, XCircle } from "lucide-react";
+import { User, Mail, Shield, Calendar, Clock, Edit, CheckCircle, XCircle, Phone, MapPin } from "lucide-react";
 
 const MyProfile = () => {
   const user = useSelector(selectCurrentUser);
@@ -72,169 +72,246 @@ const MyProfile = () => {
     );
   }
 
+  // Function to get initials from user name
+  const getUserInitials = (name: string) => {
+    if (!name) return "U";
+    const names = name.split(" ");
+    let initials = names[0].substring(0, 1).toUpperCase();
+    
+    if (names.length > 1) {
+      initials += names[names.length - 1].substring(0, 1).toUpperCase();
+    }
+    
+    return initials;
+  };
+
+  // Function to get role-specific color
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case "admin": return "bg-purple-500";
+      case "driver": return "bg-green-500";
+      default: return "bg-blue-500";
+    }
+  };
+
+  // Function to get availability color
+  const getAvailabilityColor = (availability: string) => {
+    return availability === "Online" ? "bg-green-500" : "bg-gray-500";
+  };
+
   return (
     // Wrap the entire component with Dialog to fix the DialogTrigger error
     <Dialog open={open} onOpenChange={setOpen}>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8 md:py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 md:mb-12">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
               My Profile
             </h1>
-            <p className="text-xl text-muted-foreground">Manage your account information and settings</p>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Manage your account information and settings
+            </p>
           </div>
 
-          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-2xl rounded-2xl overflow-hidden">
-            <CardHeader className="border-b border-gray-100 bg-gradient-to-r from-blue-50 to-purple-50">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white">
-                    <User className="w-8 h-8" />
-                  </div>
-                  <div>
-                    <div className="flex flex-wrap items-center gap-3 mb-2">
-                      <h2 className="text-2xl font-bold">{user?.name}</h2>
-                      <Badge className={`px-3 py-1 text-sm rounded-full ${
-                        user?.role === "admin" 
-                          ? "bg-purple-500" 
-                          : user?.role === "driver" 
-                            ? "bg-green-500" 
-                            : "bg-blue-500"
-                      } text-white`}>
-                        {user?.role?.toUpperCase()}
-                      </Badge>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            {/* Profile Header Card */}
+            <Card className="lg:col-span-3 bg-gradient-to-r from-white/90 to-gray-50/90 dark:from-gray-800/90 dark:to-gray-900/90 backdrop-blur-sm border-0 shadow-xl rounded-2xl overflow-hidden">
+              <CardHeader className="border-b border-gray-100 dark:border-gray-700 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-gray-700/50 dark:to-gray-800/50 pb-6">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                  <div className="flex items-center gap-5">
+                    <div className="relative">
+                      <div className="w-20 h-20 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                        {getUserInitials(user?.name)}
+                      </div>
+                      <div className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-green-500 border-2 border-white dark:border-gray-800"></div>
                     </div>
-                    <p className="text-base text-muted-foreground">
-                      Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US") : 'N/A'}
-                    </p>
+                    <div>
+                      <div className="flex flex-wrap items-center gap-3 mb-2">
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{user?.name}</h2>
+                        <Badge className={`px-3 py-1 text-sm rounded-full ${getRoleColor(user?.role)} text-white`}>
+                          {user?.role?.toUpperCase()}
+                        </Badge>
+                      </div>
+                      <p className="text-base text-muted-foreground flex items-center gap-2">
+                        <Mail className="w-4 h-4" />
+                        {user?.email}
+                      </p>
+                    </div>
                   </div>
+                  <DialogTrigger asChild>
+                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl px-5 py-2.5 text-base md:text-lg transition-all duration-300 transform hover:scale-105 shadow-md">
+                      <Edit className="w-5 h-5 mr-2" />
+                      Edit Profile
+                    </Button>
+                  </DialogTrigger>
                 </div>
-                <DialogTrigger asChild>
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full px-6 py-3 text-lg">
-                    <Edit className="w-5 h-5 mr-2" />
-                    Edit Profile
-                  </Button>
-                </DialogTrigger>
-              </div>
-            </CardHeader>
-            <CardContent className="p-8">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4 p-5 bg-blue-50 rounded-xl">
-                    <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                      <User className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Full Name</p>
-                      <p className="font-semibold text-lg">{user?.name}</p>
-                    </div>
+              </CardHeader>
+            </Card>
+
+            {/* Profile Information Cards */}
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                    <User className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
-                  
-                  <div className="flex items-center gap-4 p-5 bg-purple-50 rounded-xl">
-                    <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
-                      <Mail className="w-6 h-6 text-purple-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Email Address</p>
-                      <p className="font-semibold text-lg">{user?.email}</p>
-                    </div>
-                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Personal Information</h3>
                 </div>
                 
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4 p-5 bg-green-50 rounded-xl">
-                    <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                      <Shield className="w-6 h-6 text-green-600" />
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100 dark:border-gray-700">
+                    <span className="text-muted-foreground">Full Name</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{user?.name}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100 dark:border-gray-700">
+                    <span className="text-muted-foreground">Email</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{user?.email}</span>
+                  </div>
+                  
+                  {user?.phone && (
+                    <div className="flex justify-between items-center pb-3 border-b border-gray-100 dark:border-gray-700">
+                      <span className="text-muted-foreground">Phone</span>
+                      <span className="font-medium text-gray-900 dark:text-white flex items-center gap-1">
+                        <Phone className="w-4 h-4" />
+                        {user?.phone}
+                      </span>
                     </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Account Status</p>
-                      <div className="flex items-center gap-3">
-                        {user?.isBlocked ? (
-                          <>
-                            <XCircle className="w-5 h-5 text-red-500" />
-                            <span className="font-semibold text-lg text-red-600">Blocked</span>
-                          </>
-                        ) : (
-                          <>
-                            <CheckCircle className="w-5 h-5 text-green-500" />
-                            <span className="font-semibold text-lg text-green-600">Active</span>
-                          </>
-                        )}
-                      </div>
+                  )}
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">Member Since</span>
+                    <span className="font-medium text-gray-900 dark:text-white flex items-center gap-1">
+                      <Calendar className="w-4 h-4" />
+                      {user?.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US", {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      }) : 'N/A'}
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Account Status</h3>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100 dark:border-gray-700">
+                    <span className="text-muted-foreground">Status</span>
+                    <div className="flex items-center gap-2">
+                      {user?.isBlocked ? (
+                        <>
+                          <XCircle className="w-5 h-5 text-red-500" />
+                          <span className="font-medium text-red-600">Blocked</span>
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle className="w-5 h-5 text-green-500" />
+                          <span className="font-medium text-green-600">Active</span>
+                        </>
+                      )}
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-4 p-5 bg-orange-50 rounded-xl">
-                    <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center">
-                      <Calendar className="w-6 h-6 text-orange-600" />
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100 dark:border-gray-700">
+                    <span className="text-muted-foreground">Role</span>
+                    <Badge className={`px-3 py-1 rounded-full ${getRoleColor(user?.role)} text-white`}>
+                      {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
+                    </Badge>
+                  </div>
+                  
+                  {user?.role === "driver" && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">Availability</span>
+                      <Badge className={`px-3 py-1 rounded-full ${getAvailabilityColor(user?.availability)}`}>
+                        {user?.availability || "Offline"}
+                      </Badge>
                     </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Member Since</p>
-                      <p className="font-semibold text-lg">{user?.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US") : 'N/A'}</p>
+                  )}
+                  
+                  {user?.role === "driver" && user?.isApproved !== undefined && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">Approval Status</span>
+                      <Badge className={`px-3 py-1 rounded-full ${
+                        user?.isApproved ? "bg-green-500" : "bg-amber-500"
+                      } text-white`}>
+                        {user?.isApproved ? "Approved" : "Pending"}
+                      </Badge>
                     </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                    <MapPin className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Location & Preferences</h3>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100 dark:border-gray-700">
+                    <span className="text-muted-foreground">Default Location</span>
+                    <span className="font-medium text-gray-900 dark:text-white">Dhaka, Bangladesh</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100 dark:border-gray-700">
+                    <span className="text-muted-foreground">Language</span>
+                    <span className="font-medium text-gray-900 dark:text-white">English</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">Timezone</span>
+                    <span className="font-medium text-gray-900 dark:text-white">GMT+6</span>
                   </div>
                 </div>
-              </div>
-              
-              {user?.role === "driver" && (
-                <div className="mt-10 pt-8 border-t border-gray-100">
-                  <div className="flex items-center gap-4 p-5 bg-blue-50 rounded-xl">
-                    <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Driver Availability</p>
-                      <div className="flex items-center gap-3 mt-1">
-                        <Badge className={`px-3 py-1 text-base rounded-full ${
-                          user?.availability === "Online" 
-                            ? "bg-green-500" 
-                            : "bg-gray-500"
-                        }`}>
-                          {user?.availability || "Offline"}
-                        </Badge>
-                        <span className="text-muted-foreground">
-                          {user?.availability === "Online" 
-                            ? "You're available to receive ride requests" 
-                            : "You're not receiving ride requests"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Update Profile Modal */}
-          <DialogContent className="sm:max-w-[450px] rounded-2xl">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-3 text-2xl">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white">
-                  <Edit className="w-5 h-5" />
-                </div>
-                Update Profile
-              </DialogTitle>
-              <p className="text-base text-muted-foreground">
-                Update your personal information and settings
-              </p>
-            </DialogHeader>
+          <DialogContent className="sm:max-w-[500px] rounded-2xl p-0 overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6">
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-3 text-2xl text-white">
+                  <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                    <Edit className="w-6 h-6 text-white" />
+                  </div>
+                  Update Profile
+                </DialogTitle>
+                <p className="text-blue-100">
+                  Update your personal information and settings
+                </p>
+              </DialogHeader>
+            </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-6">
               <div className="space-y-2">
-                <label className="text-base font-medium">Full Name</label>
+                <label className="text-base font-medium text-gray-900 dark:text-white">Full Name</label>
                 <Input 
                   {...register("name")} 
                   placeholder="Your full name" 
-                  className="h-12 text-lg px-4"
+                  className="h-12 text-lg px-4 border-gray-200 dark:border-gray-700 rounded-xl"
                 />
               </div>
 
               {user?.role === "driver" && (
                 <div className="space-y-2">
-                  <label className="text-base font-medium">Availability</label>
+                  <label className="text-base font-medium text-gray-900 dark:text-white">Availability</label>
                   <select
                     {...register("availability")}
-                    className="w-full border rounded-xl p-4 bg-white h-12 text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-white dark:bg-gray-800 h-12 text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                   >
                     <option value="Online">Online</option>
                     <option value="Offline">Offline</option>
@@ -247,13 +324,13 @@ const MyProfile = () => {
                   type="button" 
                   variant="outline" 
                   onClick={() => setOpen(false)}
-                  className="flex-1 py-6 text-lg rounded-xl"
+                  className="flex-1 py-6 text-lg rounded-xl border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
                 >
                   Cancel
                 </Button>
                 <Button 
                   type="submit" 
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 py-6 text-lg rounded-xl"
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 py-6 text-lg rounded-xl transition-all duration-300 shadow-md hover:shadow-lg"
                   disabled={isUpdating}
                 >
                   {isUpdating ? (
