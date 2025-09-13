@@ -1,39 +1,75 @@
-export interface User {
+import { ComponentType } from "react";
+
+export type { ISendOtp, IVerifyOtp, ILogin } from "./auth.type";
+
+export interface IResponse<T> {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  data: T;
+}
+
+export interface ISidebarItem {
+  title: string;
+  items: {
+    title: string;
+    url: string;
+    component: ComponentType;
+  }[];
+}
+
+export type TRole = "driver" | "admin" | "rider";
+
+export interface IUser {
   _id: string;
   name: string;
   email: string;
-  role: 'rider' | 'driver' | 'admin';
   phone?: string;
   emergencyContact?: string;
+  role: "admin" | "driver" | "rider";
+  isBlocked: boolean;
   vehicleInfo?: {
     type: string;
     licensePlate: string;
   };
-  isApproved?: boolean;
-  isOnline?: boolean;
-  isBlocked?: boolean;
+  isApproved: boolean;
+  isOnline: boolean;
+  availability?: "Online" | "Offline";
   createdAt?: string;
   updatedAt?: string;
 }
 
-export interface Ride {
+// Ride type
+export interface IRide {
   _id: string;
-  rider: User;
-  driver?: User;
+  rider: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  driver?: {
+    _id: string;
+    name?: string;
+    email?: string;
+  };
+  status:
+    | "requested"
+    | "accepted"
+    | "picked_up"
+    | "in_transit"
+    | "completed"
+    | "canceled";
   pickupLocation: {
     latitude: number;
     longitude: number;
-    address?: string;
   };
   destinationLocation: {
     latitude: number;
     longitude: number;
-    address?: string;
   };
-  status: 'requested' | 'accepted' | 'picked_up' | 'in_transit' | 'completed' | 'canceled';
   fare: number;
   distance?: number;
-  paymentMethod: 'cash' | 'card' | 'mobile';
+  paymentMethod?: "cash" | "card" | "mobile";
   createdAt: string;
   updatedAt: string;
   statusHistory: Array<{
@@ -42,66 +78,27 @@ export interface Ride {
   }>;
 }
 
-export interface LoginCredentials {
-  email: string;
-  password: string;
+export interface TResponse<T> {
+    statusCode: number;
+    success: boolean;
+    message: string;
+    data: T;
+    
 }
 
-export interface RegisterData {
-  name: string;
-  email: string;
-  password: string;
-  role: 'rider' | 'driver';
-  phone?: string;
-  emergencyContact?: string;
-  vehicleInfo?: {
-    type: string;
-    licensePlate: string;
-  };
-}
+export  type RideStatus =
+  | "requested"
+  | "accepted"
+  | "picked_up"
+  | "in_transit"
+  | "completed"
+  | "canceled";
 
-export interface RideRequest {
-  pickupLocation: {
-    latitude: number;
-    longitude: number;
-    address?: string;
-  };
-  destinationLocation: {
-    latitude: number;
-    longitude: number;
-    address?: string;
-  };
-  paymentMethod: 'cash' | 'card' | 'mobile';
-}
-
-export interface AnalyticsData {
-  totalRides: number;
-  totalRevenue: number;
-  activeDrivers: number;
-  totalUsers: number;
-  ridesByStatus: Record<string, number>;
-  revenueByMonth: Array<{
-    month: string;
-    revenue: number;
-  }>;
-  ridesByDay: Array<{
-    day: string;
-    rides: number;
-  }>;
-}
-
-export interface PaginationParams {
-  page?: number;
-  limit?: number;
-  search?: string;
-  status?: string;
-  dateFrom?: string;
-  dateTo?: string;
-}
-
-export interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
-  error?: string;
-}
+export const allowedTransitions: Record<RideStatus, RideStatus[]> = {
+  requested: ["accepted"],
+  accepted: ["picked_up", "canceled"],
+  picked_up: ["in_transit"],
+  in_transit: ["completed"],
+  completed: [],
+  canceled: [],
+};
