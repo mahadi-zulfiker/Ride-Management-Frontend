@@ -18,7 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, Mail, Shield, Calendar, Clock, Edit, CheckCircle, XCircle, Phone, MapPin } from "lucide-react";
+import { User, Mail, Shield, Calendar, Edit, CheckCircle, XCircle, Phone, MapPin } from "lucide-react";
 
 const MyProfile = () => {
   const user = useSelector(selectCurrentUser);
@@ -95,7 +95,7 @@ const MyProfile = () => {
   };
 
   // Function to get availability color
-  const getAvailabilityColor = (availability: string) => {
+  const getAvailabilityColor = (availability: string | undefined) => {
     return availability === "Online" ? "bg-green-500" : "bg-gray-500";
   };
 
@@ -121,14 +121,14 @@ const MyProfile = () => {
                   <div className="flex items-center gap-5">
                     <div className="relative">
                       <div className="w-20 h-20 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-                        {getUserInitials(user?.name)}
+                        {getUserInitials(user?.name || "")}
                       </div>
                       <div className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-green-500 border-2 border-white dark:border-gray-800"></div>
                     </div>
                     <div>
                       <div className="flex flex-wrap items-center gap-3 mb-2">
                         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{user?.name}</h2>
-                        <Badge className={`px-3 py-1 text-sm rounded-full ${getRoleColor(user?.role)} text-white`}>
+                        <Badge className={`px-3 py-1 text-sm rounded-full ${getRoleColor(user?.role || "")} text-white`}>
                           {user?.role?.toUpperCase()}
                         </Badge>
                       </div>
@@ -223,7 +223,7 @@ const MyProfile = () => {
                   
                   <div className="flex justify-between items-center pb-3 border-b border-gray-100 dark:border-gray-700">
                     <span className="text-muted-foreground">Role</span>
-                    <Badge className={`px-3 py-1 rounded-full ${getRoleColor(user?.role)} text-white`}>
+                    <Badge className={`px-3 py-1 rounded-full ${getRoleColor(user?.role || "")} text-white`}>
                       {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
                     </Badge>
                   </div>
