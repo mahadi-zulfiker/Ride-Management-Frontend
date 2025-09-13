@@ -2,7 +2,7 @@ import AllRides from "@/pages/allRides/Allrides";
 import MyAcceptedRides from "@/pages/allRides/MyAcceptedRides";
 import EarningsHistory from "@/pages/driver/earningsHistory";
 import DriverDashboard from "@/pages/driver/Dashboard";
-import MyPtofile from "@/pages/MyPtofile";
+import MyPtofile from "@/pages/MyProfile";
 import { ISidebarItem } from "@/types";
 
 export const driverSidebarItems: ISidebarItem[] = [

@@ -1,5 +1,5 @@
 import Myrides from "@/pages/allRides/Myrides";
-import MyProfile from "@/pages/MyPtofile";
+import MyProfile from "@/pages/MyProfile";
 import RiderDashboard from "@/pages/rider/Dashboard";
 import RideRequest from "@/pages/rider/RideRequest";
 import { ISidebarItem } from "@/types";

@@ -2,7 +2,7 @@
 import AdminAllRides from "@/pages/Admin/AdminAllrides";
 import AllUsers from "@/pages/Admin/AllUsers";
 import AdminDashboard from "@/pages/Admin/Dashboard";
-import MyPtofile from "@/pages/MyPtofile";
+import MyPtofile from "@/pages/MyProfile";
 import { ISidebarItem } from "@/types";
 import { lazy } from "react";
 
