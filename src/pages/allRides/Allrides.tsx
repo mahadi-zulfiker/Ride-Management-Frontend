@@ -1,8 +1,7 @@
 import { useGetAllRidesQuery, useGetAvailableRidesQuery } from "@/redux/features";
-import { selectIsAuthenticated, selectCurrentUser } from "@/redux/features";
+import { selectCurrentUser } from "@/redux/features";
 import { useSelector } from "react-redux";
 import RideCard from "@/components/rideCard";
-import RideRequestModal from "@/components/RideRequestModal";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,8 +9,8 @@ import { Car, Navigation, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const AllRides = () => {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
   const userData = useSelector(selectCurrentUser);
+  const isAuthenticated = !!userData;
   const role = userData?.role;
   
   // Use different queries based on user role

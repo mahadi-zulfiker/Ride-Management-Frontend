@@ -8,7 +8,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import config from "@/config";
 import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Mail, Lock, Eye, EyeOff, Loader2, Chrome, Zap, User, Shield } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Loader2, Zap, User, Shield } from "lucide-react";
 import { useState } from "react";
 
 const loginSchema = z.object({

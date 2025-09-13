@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux'
-import { selectCurrentUser, selectIsAuthenticated } from '@/redux/features/auth/authSlice'
+import { selectCurrentUser } from '@/redux/features/auth/authSlice'
 
 // Custom hook to mimic the old useUserInfoQuery behavior
 export const useUserInfo = () => {
   const user = useSelector(selectCurrentUser)
-  const isAuthenticated = useSelector(selectIsAuthenticated)
   
   return {
     data: user,
@@ -16,6 +15,6 @@ export const useUserInfo = () => {
 }
 
 // For components that expect { data: userData } format
-export const useUserInfoQuery = (arg?: any) => {
+export const useUserInfoQuery = (_arg?: any) => {
   return useUserInfo()
 }

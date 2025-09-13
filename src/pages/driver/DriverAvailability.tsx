@@ -11,10 +11,10 @@ import { useSetAvailabilityMutation, useUserInfoQuery } from "@/redux/features";
 
 const DriverAvailability = () => {
   const { data: userData } = useUserInfoQuery(undefined);
-  const driverId = userData?.data?._id;
-  const currentAvailability = userData?.data?.availability || "Offline";
+  const driverId = userData?._id;
+  const currentAvailability = userData?.availability || "Offline";
 
-  const [availability, setAvailability] = useState(currentAvailability);
+  const [availability, setAvailability] = useState<"Online" | "Offline">(currentAvailability as "Online" | "Offline");
   const [setAvailabilityMutation, { isLoading }] = useSetAvailabilityMutation();
 
   const handleUpdate = async () => {
@@ -33,7 +33,7 @@ const DriverAvailability = () => {
       <h1 className="text-2xl font-bold mb-4">Driver Availability</h1>
 
       <div className="flex gap-4 items-center">
-        <Select value={availability} onValueChange={(val) => setAvailability(val)}>
+        <Select value={availability} onValueChange={(val) => setAvailability(val as "Online" | "Offline")}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Set Availability" />
           </SelectTrigger>

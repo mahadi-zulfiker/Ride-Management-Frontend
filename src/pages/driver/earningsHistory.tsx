@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useEarningsHistoryQuery, useGetEarningsQuery } from "@/redux/features";
+import { useEarningsHistoryQuery } from "@/redux/features";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { DollarSign, TrendingUp, Calendar, Car, Clock } from "lucide-react";
 
@@ -29,7 +29,6 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 const EarningsHistory = () => {
   const [timeRange, setTimeRange] = useState('week');
   const { data, isLoading, isError } = useEarningsHistoryQuery(undefined);
-  const { data: earningsData } = useGetEarningsQuery();
 
   if (isLoading) {
     return (
@@ -184,7 +183,7 @@ const EarningsHistory = () => {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {mockPaymentBreakdown.map((entry, index) => (
+                  {mockPaymentBreakdown.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>

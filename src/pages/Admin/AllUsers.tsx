@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
-import { useGetAllUsersQuery, useBlockUserMutation, useSuspendDriverMutation } from "@/redux/features";
+import { useGetAllUsersQuery, useBlockUserMutation, useSuspendDriverMutation, useApproveDriverMutation } from "@/redux/features";
 import { IUser } from "@/types";
 
 
@@ -20,6 +20,7 @@ const AllUsers = () => {
 
   const [blockUser] = useBlockUserMutation();
   const [suspendDriver] = useSuspendDriverMutation();
+  const [approveDriver] = useApproveDriverMutation();
 
   const handleBlockToggle = async (id: string, block: boolean) => {
     await blockUser({ id, block }).unwrap();
@@ -27,8 +28,12 @@ const AllUsers = () => {
     setBlockModalId(null); 
   };
 
-  const handleSuspendToggle = async (id: string, suspend: boolean) => {
-    await suspendDriver({ id, suspend }).unwrap();
+  const handleSuspendToggle = async (id: string, isApproved: boolean) => {
+    if (isApproved) {
+      await approveDriver({ id }).unwrap();
+    } else {
+      await suspendDriver({ id }).unwrap();
+    }
     refetch();
     setSuspendModalId(null); 
   };
@@ -117,21 +122,21 @@ const AllUsers = () => {
                   {user.role === "driver" && (
                     <Dialog open={suspendModalId === user._id} onOpenChange={(open) => setSuspendModalId(open ? user._id : null)}>
                       <DialogTrigger asChild>
-                        <Button size="sm" variant={user.isSuspend ? "default" : "destructive"}>
-                          {user.isSuspend ? "Approve" : "Suspend"}
+                        <Button size="sm" variant={user.isApproved ? "destructive" : "default"}>
+                          {user.isApproved ? "Suspend" : "Approve"}
                         </Button>
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>{user.isSuspend ? "Approve" : "Suspend"} Driver</DialogTitle>
+                          <DialogTitle>{user.isApproved ? "Suspend" : "Approve"} Driver</DialogTitle>
                         </DialogHeader>
-                        <p>Are you sure you want to {user.isSuspend ? "approve" : "suspend"} this driver?</p>
+                        <p>Are you sure you want to {user.isApproved ? "suspend" : "approve"} this driver?</p>
                         <DialogFooter>
                           <Button
                             variant="destructive"
-                            onClick={() => handleSuspendToggle(user._id, !user.isSuspend)}
+                            onClick={() => handleSuspendToggle(user._id, !user.isApproved)}
                           >
-                            Yes, {user.isSuspend ? "Approve" : "Suspend"}
+                            Yes, {user.isApproved ? "Suspend" : "Approve"}
                           </Button>
                         </DialogFooter>
                       </DialogContent>

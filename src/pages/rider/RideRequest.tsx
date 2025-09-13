@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,7 +12,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -52,7 +52,7 @@ export default function RideRequest() {
   });
 
   // Mock geocoding function - in real app, use Google Maps or similar
-  const geocodeAddress = async (address: string) => {
+  const geocodeAddress = async (_address: string) => {
     // Simulate geocoding with random coordinates around Dhaka
     const lat = 23.8103 + (Math.random() - 0.5) * 0.1;
     const lng = 90.4125 + (Math.random() - 0.5) * 0.1;

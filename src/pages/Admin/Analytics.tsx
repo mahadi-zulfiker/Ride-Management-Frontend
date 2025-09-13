@@ -42,7 +42,6 @@ export default function Analytics() {
   // Calculate aggregated metrics
   const totalRides = rideVolume.reduce((sum: number, item: any) => sum + item.count, 0);
   const totalRevenue = revenueTrends.reduce((sum: number, item: any) => sum + item.revenue, 0);
-  const topDriver = driverActivity[0];
   const avgRevenuePerDay = revenueTrends.length > 0 ? totalRevenue / revenueTrends.length : 0;
 
   return (

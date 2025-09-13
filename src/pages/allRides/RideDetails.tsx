@@ -1,5 +1,5 @@
 import { useGetRideDetailsQuery } from "@/redux/features";
-import { selectIsAuthenticated, selectCurrentUser } from "@/redux/features";
+import { selectCurrentUser } from "@/redux/features";
 import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,12 +9,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, MapPin, DollarSign, Clock, User, Car, Route, Calendar, CreditCard } from "lucide-react";
 
 const RideDetails = () => {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  const currentUser = useSelector(selectCurrentUser);
   const navigate = useNavigate();
   const { rideId } = useParams<{ rideId: string }>();
+  const currentUser = useSelector(selectCurrentUser);
   const { data, isLoading, isError } = useGetRideDetailsQuery(rideId!, {
-    skip: !isAuthenticated || !rideId
+    skip: !currentUser || !rideId
   });
 
   if (isLoading) {

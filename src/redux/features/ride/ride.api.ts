@@ -214,7 +214,7 @@ export const rideApi = baseApi.injectEndpoints({
         console.log('Update status response:', response);
         return response?.ride || response;
       },
-      onQueryStarted: async (arg, { queryFulfilled }) => {
+      onQueryStarted: async (_, { queryFulfilled }) => {
         try {
           const result = await queryFulfilled;
           console.log('Status update successful:', result);

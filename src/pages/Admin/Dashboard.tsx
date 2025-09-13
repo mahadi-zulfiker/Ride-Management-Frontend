@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useGetAllUsersQuery, useGetAllRidesQuery, useGetAnalyticsQuery } from "@/redux/features";
+import { useGetAllUsersQuery, useGetAllRidesQuery } from "@/redux/features";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -22,7 +22,6 @@ export default function AdminDashboard() {
   const user = useSelector(selectCurrentUser);
   const { data: usersData, isLoading: usersLoading } = useGetAllUsersQuery({ limit: 10 });
   const { data: ridesData, isLoading: ridesLoading } = useGetAllRidesQuery({ limit: 10 });
-  const { data: analyticsData, isLoading: analyticsLoading } = useGetAnalyticsQuery();
 
   const users = usersData?.data || [];
   const rides = ridesData?.data || [];
@@ -65,7 +64,7 @@ export default function AdminDashboard() {
     }
   };
 
-  if (usersLoading || ridesLoading || analyticsLoading) {
+  if (usersLoading || ridesLoading) {
     return (
       <div className="p-4 lg:p-6 space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

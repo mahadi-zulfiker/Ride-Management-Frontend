@@ -1,18 +1,17 @@
 import RideCard from "@/components/rideCard";
 import { useCancelRideMutation, useGetMyRidesQuery } from "@/redux/features";
-import { selectIsAuthenticated, selectCurrentUser } from "@/redux/features";
+import { selectCurrentUser } from "@/redux/features";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
 import { Car, Plus, Calendar, Route } from "lucide-react";
 
 const Myrides = () => {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectCurrentUser);
+  const isAuthenticated = !!user;
   const { data, isLoading, error } = useGetMyRidesQuery(undefined, {
     skip: !isAuthenticated
   });
